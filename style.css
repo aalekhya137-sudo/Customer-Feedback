@@ -31,14 +31,13 @@ body{
 }
 
 h1{
-    color:white;
+    color:Blue;
     margin-bottom:5px;
     letter-spacing:1px;
 }
-
 h3{
     text-align:center;
-    color:white;
+    color:Blue;
     margin-bottom:30px;
     font-weight:400;
 }
