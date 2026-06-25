@@ -18,18 +18,12 @@ body{
     align-items:center;
 }
 .container{
-
     width:100%;
-
     max-width:500px;
-
 }
-
 .logo{
-
-    text-align:center;
-
-    font-size:70px;
+  text-align:center;
+  font-size:70px;
 
     margin-bottom:10px;
 
