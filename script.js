@@ -7,7 +7,9 @@ let selectedEmoji = "";
 const ratings = {
     1: { emoji: "😡", text: "Bad" },
     2: { emoji: "😐", text: "Average" },
-    3: { emoji: "🤩", text: "Excellent" }
+    3: { emoji: "🤩", text: "Excellent" },
+    4: { emoji: "☹️", text: "Poor" },
+    5: { emoji: "😊", text: "Good" },
 };
 // Select Emoji
 document.querySelectorAll(".emoji").forEach(function (emoji) {
