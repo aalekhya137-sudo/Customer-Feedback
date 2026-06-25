@@ -6,8 +6,8 @@ let selectedEmoji = "";
 // Rating text
 const ratings = {
     1: { emoji: "🤩", text: "Excellent" },
-    2: { emoji: "😐", text: "Average" },
-    3: { emoji: "😊", text: "Good" },
+    2: { emoji: "😊", text: "Good" },
+    3: { emoji: "😐", text: "Average" },
     4: { emoji: "☹️", text: "Poor" },
     5: { emoji: "😡", text: "Bad" }
 };
