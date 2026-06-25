@@ -8,7 +8,7 @@ body{
     text-align:center;
     background-image:url('Background.png');
     background-size:cover;
-    background-position:Top;
+    background-position:center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     min-height:100vh;
