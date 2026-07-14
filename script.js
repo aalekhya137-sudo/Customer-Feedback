@@ -69,23 +69,16 @@ Submitted On : ${feedback.submittedOn}
     const a = document.createElement("a");
     a.href = url;
     a.download = "feedback.txt";
+   // Show thank you message
+alert("🎉 Thank you! Your feedback has been submitted successfully.");
+
+// Wait 2 seconds and open Scratch Card page
+setTimeout(function () {
+    window.location.href = "scratch.html";
+}, 2000);
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    // Thank you screen
-    document.querySelector(".container").innerHTML = `
-<div class="success">
-<h1>🎉</h1>
-<h2>Thank You!</h2>
-<p>
-Your feedback has been submitted successfully.
-</p>
-<br>
-<h3>
-❤️ Team JAI KAPEES INFRACON 
-</h3>
-</div>
-`;
-
-});
+    
+    
