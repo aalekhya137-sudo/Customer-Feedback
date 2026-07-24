@@ -1,143 +1,100 @@
 // ===============================
-// Scratch Card - JAI KAPEES INFRACON
+// Customer Feedback Form
 // ===============================
 
-const canvas = document.getElementById("scratchCanvas");
-const ctx = canvas.getContext("2d");
+let selectedRating = "";
+let selectedEmoji = "";
 
-const rewardText = document.getElementById("prize");
-const claimBtn = document.getElementById("claimBtn");
+const ratings = {
+    1: { emoji: "🤩", text: "Excellent" },
+    2: { emoji: "😊", text: "Good" },
+    3: { emoji: "😐", text: "Average" },
+    4: { emoji: "☹️", text: "Poor" },
+    5: { emoji: "😡", text: "Bad" }
+};
 
-// Random Rewards
-const rewards = [
-    "₹100 Discount",
-    "₹250 Discount",
-    "10% Discount",
-    "Free Gift",
-    "Better Luck Next Time",
-    "Free Delivery"
-];
+// Your Apps Script Web App URL
+const scriptURL = "https://script.google.com/macros/s/AKfycbyRyz4n95a1Lkj0iLuFG61Z4RiGRZz5EC88WyyLRtIAlEEtuEju32odxATSGvJv1sLE/exec";
 
-// Select Random Reward
-rewardText.innerText = rewards[Math.floor(Math.random() * rewards.length)];
+// Emoji Selection
+document.querySelectorAll(".emoji").forEach((emoji) => {
 
-// Canvas Size
-canvas.width = canvas.offsetWidth;
-canvas.height = canvas.offsetHeight;
+    emoji.addEventListener("click", function () {
 
-// Silver Scratch Layer
-ctx.fillStyle = "#B0B0B0";
-ctx.fillRect(0,0,canvas.width,canvas.height);
+        document.querySelectorAll(".emoji").forEach(e => e.classList.remove("selected"));
 
-// Add Text
-ctx.fillStyle = "#ffffff";
-ctx.font = "bold 28px Arial";
-ctx.textAlign = "center";
-ctx.fillText("SCRATCH HERE",canvas.width/2,canvas.height/2);
+        this.classList.add("selected");
 
-// Scratch Effect
-ctx.globalCompositeOperation = "destination-out";
+        selectedRating = this.dataset.rating;
 
-let isDrawing = false;
+        selectedEmoji = ratings[selectedRating].emoji;
 
-// Mouse
-canvas.addEventListener("mousedown",()=>{
-    isDrawing=true;
+        document.getElementById("ratingText").innerHTML =
+            selectedEmoji + " " + ratings[selectedRating].text;
+
+    });
+
 });
 
-canvas.addEventListener("mouseup",()=>{
-    isDrawing=false;
-});
+// Submit
+document.getElementById("submitBtn").addEventListener("click", function () {
 
-canvas.addEventListener("mousemove",scratch);
+    const orderNo = document.getElementById("orderNo").value.trim();
+    const experience = document.getElementById("experience").value.trim();
+    const improvement = document.getElementById("improve").value.trim();
 
-// Touch
-canvas.addEventListener("touchstart",()=>{
-    isDrawing=true;
-});
+    if(orderNo==""){
+        alert("Please Enter Order Number");
+        return;
+    }
 
-canvas.addEventListener("touchend",()=>{
-    isDrawing=false;
-});
+    if(selectedRating==""){
+        alert("Please Select Rating");
+        return;
+    }
 
-canvas.addEventListener("touchmove",scratchTouch);
+    const feedback = {
 
-function scratch(e){
+        orderNo: orderNo,
+        rating: ratings[selectedRating].text,
+        emoji: selectedEmoji,
+        experience: experience,
+        improvement: improvement
 
-    if(!isDrawing) return;
+    };
 
-    const rect=canvas.getBoundingClientRect();
+    fetch(scriptURL,{
+        method:"POST",
+        body:JSON.stringify(feedback),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
 
-    const x=e.clientX-rect.left;
+    .then(res=>res.json())
 
-    const y=e.clientY-rect.top;
+    .then(data=>{
 
-    ctx.beginPath();
+        if(data.status=="success"){
 
-    ctx.arc(x,y,22,0,Math.PI*2);
+            alert("Thank You For Your Valuable Feedback");
 
-    ctx.fill();
+            window.location.href="scratch.html";
 
-    checkScratch();
-}
+        }else{
 
-function scratchTouch(e){
-
-    if(!isDrawing) return;
-
-    e.preventDefault();
-
-    const rect=canvas.getBoundingClientRect();
-
-    const touch=e.touches[0];
-
-    const x=touch.clientX-rect.left;
-
-    const y=touch.clientY-rect.top;
-
-    ctx.beginPath();
-
-    ctx.arc(x,y,22,0,Math.PI*2);
-
-    ctx.fill();
-
-    checkScratch();
-}
-
-// Check how much scratched
-function checkScratch(){
-
-    const pixels=ctx.getImageData(0,0,canvas.width,canvas.height);
-
-    let transparent=0;
-
-    for(let i=3;i<pixels.data.length;i+=4){
-
-        if(pixels.data[i]===0){
-
-            transparent++;
+            alert(data.message);
 
         }
 
-    }
+    })
 
-    const percent=(transparent/(canvas.width*canvas.height))*100;
+    .catch(err=>{
 
-    if(percent>45){
+        console.log(err);
 
-        canvas.style.display="none";
+        alert("Unable to Submit Feedback");
 
-        claimBtn.style.display="inline-block";
-
-    }
-
-}
-
-// Button
-claimBtn.addEventListener("click",function(){
-
-    alert("🎉 Congratulations!\n\nPlease show this reward during your next order.\n\nThank you for choosing JAI KAPEES INFRACON.");
-
-    window.location.href="index.html";
+    });
 
 });
