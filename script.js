@@ -116,7 +116,74 @@ ${feedback.submittedOn}
     URL.revokeObjectURL(url);
 
     // Thank You Message
-    alert("🎉 Thank you for your valuable feedback!");
+    alert("🎉 Thank you for your valuable feedback!");const scriptURL =
+"https://script.google.com/macros/s/AKfycbyRyz4n95a1Lkj0iLuFG61Z4RiGRZz5EC88WyyLRtIAlEEtuEju32odxATSGvJv1sLE/exec";
+
+document.getElementById("submitBtn").addEventListener("click", function () {
+
+    let orderNo = document.getElementById("orderNo").value.trim();
+    let experience = document.getElementById("experience").value.trim();
+    let improve = document.getElementById("improve").value.trim();
+
+    if(orderNo==""){
+        alert("Enter Order Number");
+        return;
+    }
+
+    if(selectedRating==""){
+        alert("Select Rating");
+        return;
+    }
+
+    let feedback={
+
+        orderNo:orderNo,
+        rating:ratings[selectedRating].text,
+        emoji:selectedEmoji,
+        experience:experience,
+        improvement:improve
+
+    };
+
+    fetch(scriptURL,{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify(feedback)
+
+    })
+
+    .then(response=>response.json())
+
+    .then(data=>{
+
+        if(data.status=="success"){
+
+            alert("Thank you for your valuable feedback.");
+
+            window.location.href="scratch.html";
+
+        }else{
+
+            alert(data.message);
+
+        }
+
+    })
+
+    .catch(error=>{
+
+        console.log(error);
+
+        alert("Connection Failed");
+
+    });
+
+});
 
     // Redirect to Scratch Card
     setTimeout(function () {
