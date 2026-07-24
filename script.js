@@ -34,6 +34,8 @@ document.querySelectorAll(".emoji").forEach(function (emoji) {
     });
 
 });
+// ===============================
+const scriptURL = "https://script.google.com/macros/s/AKfycbyRyz4n95a1Lkj0iLuFG61Z4RiGRZz5EC88WyyLRtIAlEEtuEju32odxATSGvJv1sLE/exec";
 
 // Submit Button
 document.getElementById("submitBtn").addEventListener("click", function () {
